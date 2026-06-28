@@ -1,0 +1,14 @@
+﻿node_modules/
+data/
+uploads/
+server.log
+server2.log
+server_debug.log
+config.json
+.env
+*.zip
+_*.js
+_*.py
+deploy-linux.sh
+deploy.ps1
+test/

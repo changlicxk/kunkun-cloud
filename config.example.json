@@ -1,0 +1,14 @@
+{
+  "cos": {
+    "region": "ap-beijing",
+    "secretKey": "YOUR_COS_SECRET_KEY",
+    "bucket": "YOUR_BUCKET_NAME",
+    "secretId": "YOUR_COS_SECRET_ID"
+  },
+  "port": 3000,
+  "smtp": {
+    "user": "YOUR_EMAIL@qq.com",
+    "pass": "YOUR_SMTP_AUTH_CODE"
+  },
+  "superAdmin": "changlicxk"
+}

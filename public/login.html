@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>坤坤云 - 登录</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAKIU">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#fff; --surface:#f7f7f8; --ink:#1a1a2e; --primary:#e8533e; --primary-light:#fde8e5; --accent:#4ecdc4; --accent-light:#e8f8f6; --muted:#888; --success:#4ade80; --error:#f87171; --border:#e5e5e5; --shadow-md:0 4px 12px rgba(0,0,0,0.08); --shadow-lg:0 8px 24px rgba(0,0,0,0.12); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Nunito','PingFang SC',system-ui,sans-serif; background:var(--bg); background-image:url('images/bg.png'); background-size:cover; background-position:center bottom; background-attachment:fixed; color:var(--ink); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; cursor:url('images/cursor.png') 16 16,auto; }
+    .deco { position:fixed; pointer-events:none; z-index:0; opacity:0.15; animation:f 6s ease-in-out infinite; }
+    .deco-1{top:5%;left:3%;width:120px}.deco-2{top:15%;right:5%;width:100px;animation-delay:1s}.deco-3{bottom:20%;left:2%;width:90px;animation-delay:2s}.deco-4{top:40%;right:3%;width:110px;animation-delay:.5s}.deco-5{bottom:8%;right:8%;width:130px;animation-delay:1.5s}
+    @keyframes f{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-15px) rotate(3deg)}}
+    .box{width:100%;max-width:420px;position:relative;z-index:1}
+    .card{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-radius:24px;padding:40px 32px;box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,0.5)}
+    .hd{text-align:center;margin-bottom:32px}
+    .logo{font-size:4rem;margin-bottom:8px;display:inline-block;animation:b 2s ease-in-out infinite}
+    @keyframes b{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .title{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+    .sub{color:var(--muted);font-size:.95rem;font-weight:600}
+    .tabs{display:flex;background:var(--surface);border-radius:12px;padding:4px;margin-bottom:24px}
+    .tab{flex:1;padding:12px;text-align:center;border-radius:10px;cursor:pointer;font-weight:700;font-size:.95rem;color:var(--muted);transition:all .3s;border:none;background:transparent}
+    .tab.on{background:var(--primary);color:#fff;box-shadow:var(--shadow-md)}
+    .tab:hover:not(.on){color:var(--ink)}
+    .fg{margin-bottom:20px}
+    .fl{display:block;font-size:.9rem;font-weight:700;margin-bottom:8px}
+    .fi{width:100%;padding:14px 16px;border:2px solid var(--border);border-radius:12px;font-size:1rem;font-family:inherit;font-weight:600;color:var(--ink);background:var(--surface);transition:all .2s}
+    .fi:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+    .fr{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+    .fl2{display:inline-block;font-size:.85rem;font-weight:600;color:var(--primary);text-decoration:none;cursor:pointer}
+    .fl2:hover{color:var(--accent)}
+    .btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-md)}
+    .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+    .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    .err{background:rgba(248,113,113,0.1);color:var(--error);padding:12px 16px;border-radius:10px;font-size:.9rem;font-weight:600;margin-bottom:16px;display:none;animation:s .3s}
+    .ok{background:rgba(74,222,128,0.1);color:var(--success);padding:12px 16px;border-radius:10px;font-size:.9rem;font-weight:600;margin-bottom:16px;display:none;animation:s .3s}
+    @keyframes s{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+    .sec{display:none}.sec.on{display:block;animation:s .3s}
+    .spinner{display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,0.3);border-radius:50%;border-top-color:#fff;animation:sp .8s linear infinite;vertical-align:middle;margin-right:8px}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    .captcha-wrap{display:flex;gap:12px;align-items:center}
+    .captcha-box{display:flex;align-items:center;gap:8px;background:var(--surface);border:2px solid var(--border);border-radius:12px;padding:4px 8px;cursor:pointer;user-select:none;justify-content:center;overflow:hidden}
+    .captcha-box:hover{border-color:var(--primary)}
+    .captcha-canvas{display:block;border-radius:8px}
+    .captcha-refresh{font-size:1.2rem;color:var(--muted);transition:transform .3s}
+    .captcha-refresh:hover{transform:rotate(180deg);color:var(--primary)}
+    @media(max-width:480px){.card{padding:32px 24px}.deco{display:none}}
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+    .modal-overlay.on{display:flex}
+    .modal{background:#fff;border-radius:20px;padding:32px;width:90%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:ms .3s}
+    @keyframes ms{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+    .modal h2{font-size:1.3rem;font-weight:800;margin-bottom:12px;color:var(--ink)}
+    .modal p{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+    .code-input{width:100%;text-align:center;font-size:2rem;font-weight:800;letter-spacing:12px;border:2px solid var(--border);border-radius:12px;padding:14px;background:var(--surface);color:var(--ink);margin-bottom:16px}
+    .code-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+    .divider{text-align:center;color:var(--muted);font-size:.85rem;margin:16px 0;font-weight:600}
+  </style>
+</head>
+<body>
+  <img class="deco deco-1" src="images/img1.png" alt="">
+  <img class="deco deco-2" src="images/img2.png" alt="">
+  <img class="deco deco-3" src="images/img3.png" alt="">
+  <img class="deco deco-4" src="images/img4.png" alt="">
+  <img class="deco deco-5" src="images/img5.png" alt="">
+  <div class="box">
+    <div class="card">
+      <div class="hd">
+        <div class="logo">&#x1F4E6;</div>
+        <div class="title">坤坤云</div>
+        <div class="sub">和朋友分享文件，轻松愉快</div>
+      </div>
+      <div class="tabs">
+        <button class="tab on" onclick="showTab('login')">登录</button>
+        <button class="tab" onclick="showTab('register')">注册</button>
+        <button class="tab" onclick="showTab('forgot')">找回密码</button>
+      </div>
+      <div class="sec on" id="loginSec">
+        <div class="err" id="loginErr"></div>
+        <form onsubmit="doLogin(event)">
+          <div class="fg">
+            <label class="fl">用户名</label>
+            <input class="fi" id="lUser" type="text" placeholder="请输入用户名" required autocomplete="username">
+          </div>
+          <div class="fg">
+            <label class="fl">密码</label>
+            <input class="fi" id="lPass" type="password" placeholder="请输入密码" required autocomplete="current-password">
+          </div>
+          <div class="fr">
+            <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--muted);cursor:pointer">
+              <input type="checkbox" id="remember" style="accent-color:var(--primary);width:16px;height:16px"> 记住我
+            </label>
+          </div>
+          <div class="fg">
+            <div class="captcha-wrap">
+              <input class="fi" id="lCaptcha" type="text" placeholder="请输入验证码" required style="flex:1" maxlength="6" inputmode="numeric">
+              <div class="captcha-box" onclick="genCaptcha()" title="点击刷新验证码">
+                <canvas class="captcha-canvas" id="lCaptchaCanvas" width="120" height="40"></canvas>
+                <span class="captcha-refresh">&#x21BB;</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn" type="submit" id="lBtn">登录</button>
+        </form>
+      </div>
+      <div class="sec" id="registerSec">
+        <div class="err" id="regErr"></div>
+        <div class="ok" id="regOk"></div>
+        <form onsubmit="doReg(event)">
+          <div class="fg">
+            <label class="fl">用户名</label>
+            <input class="fi" id="rUser" type="text" placeholder="至少3个字符" required minlength="3" autocomplete="username">
+          </div>
+          <div class="fg">
+            <label class="fl">密码</label>
+            <input class="fi" id="rPass" type="password" placeholder="至少6位" required minlength="6" autocomplete="new-password">
+          </div>
+          <div class="fg">
+            <label class="fl">确认密码</label>
+            <input class="fi" id="rPass2" type="password" placeholder="再次输入密码" required autocomplete="new-password">
+          </div>
+          <div class="fg">
+            <label class="fl">邮箱（可选）</label>
+            <input class="fi" id="rEmail" type="email" placeholder="用于找回密码" autocomplete="email">
+          </div>
+          <div class="fg">
+            <div class="captcha-wrap">
+              <input class="fi" id="rCaptcha" type="text" placeholder="请输入验证码" required style="flex:1" maxlength="6" inputmode="numeric">
+              <div class="captcha-box" onclick="genRegCaptcha()" title="点击刷新验证码">
+                <canvas class="captcha-canvas" id="rCaptchaCanvas" width="120" height="40"></canvas>
+                <span class="captcha-refresh">&#x21BB;</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn" type="submit" id="rBtn">注册</button>
+        </form>
+      </div>
+      <div class="sec" id="forgotSec">
+        <div class="err" id="forgotErr"></div>
+        <div class="ok" id="forgotOk"></div>
+        <form onsubmit="doForgot(event)">
+          <div class="fg">
+            <label class="fl">用户名</label>
+            <input class="fi" id="fUser" type="text" placeholder="请输入用户名" required autocomplete="username">
+          </div>
+          <div class="fg">
+            <label class="fl">注册邮箱</label>
+            <input class="fi" id="fEmail" type="email" placeholder="输入注册时的邮箱" required autocomplete="email">
+          </div>
+          <div class="fg">
+            <div class="captcha-wrap">
+              <input class="fi" id="fCaptcha" type="text" placeholder="请输入验证码" required style="flex:1" maxlength="6" inputmode="numeric">
+              <div class="captcha-box" onclick="genForgotCaptcha()" title="点击刷新验证码">
+                <canvas class="captcha-canvas" id="fCaptchaCanvas" width="120" height="40"></canvas>
+                <span class="captcha-refresh">&#x21BB;</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn" type="submit" id="fBtn">发送验证码</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    var _captcha={l:'',r:'',f:''};
+    function randCaptcha(){var c='ABCDEFGHJKMNPQRSTWXYZ23456789';var s='';for(var i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
+    function drawCaptcha(canvasId,code){
+      var canvas=document.getElementById(canvasId);if(!canvas)return;
+      var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;
+      var colors=['#e8533e','#4ecdc4','#6c5ce7','#fd79a8','#00b894','#fdcb6e','#e17055','#0984e3'];
+      var grad=ctx.createLinearGradient(0,0,w,h);
+      grad.addColorStop(0,'#f0f0f0');grad.addColorStop(0.5,'#e8e8e8');grad.addColorStop(1,'#f5f5f5');
+      ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+      for(var i=0;i<6;i++){ctx.beginPath();ctx.moveTo(Math.random()*w,Math.random()*h);ctx.lineTo(Math.random()*w,Math.random()*h);ctx.strokeStyle='rgba('+Math.floor(Math.random()*200)+','+Math.floor(Math.random()*200)+','+Math.floor(Math.random()*200)+',0.4)';ctx.lineWidth=Math.random()*2+0.5;ctx.stroke()}
+      for(var i=0;i<50;i++){ctx.beginPath();ctx.arc(Math.random()*w,Math.random()*h,Math.random()*2+0.5,0,Math.PI*2);ctx.fillStyle='rgba('+Math.floor(Math.random()*200)+','+Math.floor(Math.random()*200)+','+Math.floor(Math.random()*200)+',0.3)';ctx.fill()}
+      var chars=code.split('');
+      for(var i=0;i<chars.length;i++){ctx.save();var x=12+i*26;var y=h/2+Math.random()*8-4;ctx.translate(x,y);ctx.rotate((Math.random()-0.5)*0.5);var fontSize=20+Math.floor(Math.random()*6);ctx.font='bold '+fontSize+'px "JetBrains Mono",monospace';ctx.fillStyle=colors[Math.floor(Math.random()*colors.length)];ctx.shadowColor='rgba(0,0,0,0.15)';ctx.shadowBlur=2;ctx.shadowOffsetX=1;ctx.shadowOffsetY=1;ctx.fillText(chars[i],-6,6);ctx.restore()}
+      for(var i=0;i<3;i++){ctx.beginPath();ctx.moveTo(Math.random()*w*0.3,Math.random()*h);ctx.bezierCurveTo(Math.random()*w,Math.random()*h,Math.random()*w,Math.random()*h,Math.random()*w*0.7+w*0.3,Math.random()*h);ctx.strokeStyle='rgba('+Math.floor(Math.random()*150)+','+Math.floor(Math.random()*150)+','+Math.floor(Math.random()*150)+',0.25)';ctx.lineWidth=1.5;ctx.stroke()}
+    }
+    function genCaptcha(){_captcha.l=randCaptcha();drawCaptcha('lCaptchaCanvas',_captcha.l)}
+    function genRegCaptcha(){_captcha.r=randCaptcha();drawCaptcha('rCaptchaCanvas',_captcha.r)}
+    function genForgotCaptcha(){_captcha.f=randCaptcha();drawCaptcha('fCaptchaCanvas',_captcha.f)}
+    function checkCaptcha(v){return v.toLowerCase()===_captcha.l.toLowerCase()}
+    function checkRegCaptcha(v){return v.toLowerCase()===_captcha.r.toLowerCase()}
+    function checkForgotCaptcha(v){return v.toLowerCase()===_captcha.f.toLowerCase()}
+    function showTab(name){
+      document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',['login','register','forgot'][i]===name)});
+      document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on')});
+      document.getElementById(name+'Sec').classList.add('on');
+    }
+    function showErr(id,msg){var e=document.getElementById(id);e.textContent=msg;e.style.display='block';setTimeout(function(){e.style.display='none'},4000)}
+    function showOk(id,msg){var e=document.getElementById(id);e.textContent=msg;e.style.display='block'}
+    async function doLogin(e){
+      e.preventDefault();document.getElementById('loginErr').style.display='none';
+      if(!checkCaptcha(document.getElementById('lCaptcha').value)){showErr('loginErr','验证码错误');genCaptcha();return}
+      var b=document.getElementById('lBtn');b.innerHTML='<span class="spinner"></span>登录中...';b.disabled=true;
+      try{var r=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:document.getElementById('lUser').value,password:document.getElementById('lPass').value})});var d=await r.json();
+      if(d.success){localStorage.setItem('token',d.token);localStorage.setItem('username',d.username);if(d.isAdmin){localStorage.setItem('isAdmin','true')}else{localStorage.removeItem('isAdmin')};if(d.isSubAdmin){localStorage.setItem('isSubAdmin','true')}else{localStorage.removeItem('isSubAdmin')};window.location.href='/'}
+      else{showErr('loginErr',d.error)}}catch{showErr('loginErr','网络错误')}
+      b.innerHTML='登录';b.disabled=false;
+    }
+    async function doReg(e){
+      e.preventDefault();document.getElementById('regErr').style.display='none';document.getElementById('regOk').style.display='none';
+      if(!checkRegCaptcha(document.getElementById('rCaptcha').value)){showErr('regErr','验证码错误');genRegCaptcha();return}
+      var pw=document.getElementById('rPass').value;
+      if(pw!==document.getElementById('rPass2').value){showErr('regErr','密码不一致');return}
+      var b=document.getElementById('rBtn');b.innerHTML='<span class="spinner"></span>注册中...';b.disabled=true;
+      try{var r=await fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:document.getElementById('rUser').value,password:pw,email:document.getElementById('rEmail').value})});var d=await r.json();
+      if(d.success){showOk('regOk','注册成功！');setTimeout(function(){showTab('login');document.getElementById('lUser').value=document.getElementById('rUser').value},1500)}
+      else{showErr('regErr',d.error)}}catch{showErr('regErr','网络错误')}
+      b.innerHTML='注册';b.disabled=false;
+    }
+    async function doForgot(e){
+      e.preventDefault();document.getElementById('forgotErr').style.display='none';document.getElementById('forgotOk').style.display='none';
+      if(!checkForgotCaptcha(document.getElementById('fCaptcha').value)){showErr('forgotErr','验证码错误');genForgotCaptcha();return}
+      var b=document.getElementById('fBtn');b.innerHTML='<span class="spinner"></span>发送中...';b.disabled=true;
+      try{var r=await fetch('/api/auth/reset-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:document.getElementById('fUser').value,email:document.getElementById('fEmail').value})});var d=await r.json();
+      if(d.success){showOk('forgotOk','验证码已发送到你的邮箱');window._resetUser=document.getElementById('fUser').value;setTimeout(function(){document.getElementById('codeModal').classList.add('on');document.getElementById('codeInput').focus()},500)}
+      else{showErr('forgotErr',d.error)}}catch{showErr('forgotErr','网络错误')}
+      b.innerHTML='发送验证码';b.disabled=false;
+    }
+    function closeModal(){document.getElementById('codeModal').classList.remove('on')}
+    async function doResetCode(){
+      var code=document.getElementById('codeInput').value;
+      var pw=document.getElementById('newPass').value;
+      var pw2=document.getElementById('newPass2').value;
+      if(code.length!==6){alert('请输入6位验证码');return}
+      if(pw.length<6){alert('密码至少6位');return}
+      if(pw!==pw2){alert('两次密码不一致');return}
+      var b=document.getElementById('resetCodeBtn');b.innerHTML='<span class="spinner"></span>重置中...';b.disabled=true;
+      try{var r=await fetch('/api/auth/reset-password/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:code,username:window._resetUser,newPassword:pw})});var d=await r.json();
+      if(d.success){alert('密码重置成功！');closeModal();showTab('login')}
+      else{alert(d.error)}}catch{alert('网络错误')}
+      b.innerHTML='重置密码';b.disabled=false;
+    }
+    window.addEventListener('load',function(){genCaptcha();genRegCaptcha();genForgotCaptcha();
+      var t=localStorage.getItem('token');
+      if(t)fetch('/api/auth/check',{headers:{'Authorization':'Bearer '+t}}).then(function(r){return r.json()}).then(function(d){if(d.loggedIn)window.location.href='/'});
+    });
+  </script>
+  <div class="modal-overlay" id="codeModal">
+    <div class="modal">
+      <h2>&#x1F514; 验证码已发送</h2>
+      <p>请输入你邮箱收到的6位验证码</p>
+      <input type="text" class="code-input" id="codeInput" maxlength="6" placeholder="------" inputmode="numeric" pattern="[0-9]*">
+      <div class="divider">设置新密码</div>
+      <div class="fg"><input class="fi" id="newPass" type="password" placeholder="新密码（至少6位）" required minlength="6"></div>
+      <div class="fg"><input class="fi" id="newPass2" type="password" placeholder="确认新密码" required></div>
+      <button class="btn" onclick="doResetCode()" id="resetCodeBtn">重置密码</button>
+      <div style="text-align:center;margin-top:16px"><a class="fl2" onclick="closeModal()">取消</a></div>
+    </div>
+  </div>
+</body>
+</html>

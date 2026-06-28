@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>坤坤云</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAKIU">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#fff;--surface:#f7f7f8;--ink:#1a1a2e;--primary:#e8533e;--primary-light:#fde8e5;--accent:#4ecdc4;--accent-light:#e8f8f6;--muted:#888;--success:#4ade80;--error:#f87171;--border:#e5e5e5;--shadow-sm:0 1px 2px rgba(0,0,0,0.05);--shadow-md:0 4px 12px rgba(0,0,0,0.08);--shadow-lg:0 8px 24px rgba(0,0,0,0.12)}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Nunito','PingFang SC',system-ui,sans-serif;background:var(--bg);background-image:url('images/bg.png');background-size:cover;background-position:center bottom;background-attachment:fixed;color:var(--ink);min-height:100vh;cursor:url('images/cursor.png') 16 16,auto;overflow-x:hidden}
+    .deco{position:fixed;pointer-events:none;z-index:0;opacity:.15;animation:f 6s ease-in-out infinite}
+    .deco-1{top:5%;left:3%;width:120px}.deco-2{top:15%;right:5%;width:100px;animation-delay:1s}.deco-3{bottom:20%;left:2%;width:90px;animation-delay:2s}.deco-4{top:40%;right:3%;width:110px;animation-delay:.5s}.deco-5{bottom:8%;right:8%;width:130px;animation-delay:1.5s}.deco-6{bottom:35%;left:5%;width:95px;animation-delay:3s}.deco-7{top:50%;left:8%;width:100px;animation-delay:4s}.deco-8{top:25%;left:15%;width:85px;animation-delay:2.5s}.deco-9{bottom:45%;right:12%;width:105px;animation-delay:3.5s}.deco-10{top:70%;right:5%;width:90px;animation-delay:.8s}
+    @keyframes f{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-15px) rotate(3deg)}}
+    .ctr{max-width:800px;margin:0 auto;padding:40px 20px;position:relative;z-index:1}
+    .hd{text-align:center;margin-bottom:32px;position:relative}
+    .logo{font-size:3rem;margin-bottom:8px;display:inline-block;animation:b 2s ease-in-out infinite}
+    @keyframes b{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    h1{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+    .sub{color:var(--muted);font-size:1.1rem;font-weight:600}
+    .tbtn{position:absolute;top:0;background:var(--surface);border:1px solid var(--border);border-radius:9999px;padding:8px 12px;font-size:1.2rem;transition:all .2s}
+    .tbtn:hover{background:var(--primary-light);border-color:var(--primary);transform:scale(1.05)}
+    .tbtn-r{right:0}.tbtn-l{left:0}
+    .space-bar{display:flex;background:var(--surface);border-radius:12px;padding:4px;margin-bottom:16px;border:1px solid var(--border)}
+    .sbtn{flex:1;padding:12px;text-align:center;border-radius:10px;cursor:pointer;font-weight:700;font-size:.95rem;color:var(--muted);transition:all .3s;border:none;background:transparent;display:flex;align-items:center;justify-content:center;gap:8px}
+    .sbtn.on{background:var(--primary);color:#fff;box-shadow:var(--shadow-md)}
+    .sbtn:hover:not(.on){color:var(--ink);background:var(--primary-light)}
+    .sinfo{text-align:center;color:var(--muted);font-size:.85rem;font-weight:600;margin-bottom:20px}
+    .mwrap{overflow:hidden;margin:16px 0;padding:10px 0;border-top:1px dashed var(--border);border-bottom:1px dashed var(--border)}
+    .mtxt{display:inline-block;white-space:nowrap;animation:m 20s linear infinite;font-size:.95rem;color:var(--muted);font-weight:600}
+    @keyframes m{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+    .dz{border:3px dashed var(--border);border-radius:24px;padding:60px 20px;text-align:center;cursor:pointer;transition:all .3s;background:var(--surface);margin-bottom:32px;position:relative;overflow:hidden}
+    .dz::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--primary-light),var(--accent-light));opacity:0;transition:opacity .3s}
+    .dz:hover,.dz.drag{border-color:var(--primary);transform:scale(1.02)}
+    .dz:hover::before,.dz.drag::before{opacity:1}
+    .dzc{position:relative;z-index:1}
+    .dzi{font-size:4rem;margin-bottom:16px;display:inline-block;animation:fl 3s ease-in-out infinite}
+    @keyframes fl{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(5deg)}}
+    .dzt{font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:8px}
+    .dzh{font-size:.95rem;color:var(--muted);font-weight:600}
+    .dzb{display:inline-block;margin-top:20px;padding:12px 28px;background:var(--primary);color:#fff;border-radius:9999px;font-weight:700;font-size:1rem;transition:all .2s;box-shadow:var(--shadow-md)}
+    .dz:hover .dzb{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+    #fileInput{display:none}
+    .sl{margin-bottom:32px}
+    .sli{background:var(--surface);border-radius:9999px;height:8px;overflow:hidden;border:1px solid var(--border)}
+    .slf{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:9999px;transition:width .3s}
+    .slt{text-align:center;font-size:.85rem;font-weight:600;color:var(--muted);margin-top:8px}
+    .fl2{margin-bottom:32px}
+    .fl2h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .fl2h h2{font-size:1.1rem;font-weight:700}
+    .fl2e{font-size:.85rem;color:var(--muted);font-weight:600}
+    .fi2{display:flex;align-items:center;gap:12px;padding:16px;background:var(--surface);border-radius:16px;margin-bottom:8px;border:1px solid var(--border);transition:all .2s}
+    .fi2:hover{border-color:var(--primary);transform:translateY(-1px);box-shadow:var(--shadow-sm)}
+    .fi{font-size:2rem;flex-shrink:0}
+    .finf{flex:1;min-width:0}
+    .fn{font-weight:700;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .fm{font-size:.8rem;color:var(--muted);font-weight:600;margin-top:2px}
+    .fa{display:flex;gap:8px;flex-shrink:0}
+    .btn{padding:8px 16px;border-radius:9999px;font-weight:700;font-size:.85rem;border:none;cursor:pointer;transition:all .2s;font-family:inherit}
+    .bd{background:var(--surface);color:var(--ink);border:1px solid var(--border)}
+    .bd:hover{background:var(--primary-light);border-color:var(--primary)}
+    .bdr{background:rgba(248,113,113,0.1);color:var(--error);border:1px solid rgba(248,113,113,0.2)}
+    .bdr:hover{background:rgba(248,113,113,0.2)}
+    .ft{text-align:center;color:var(--muted);font-size:.8rem;font-weight:600;margin-top:40px;padding-bottom:20px}
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+    .modal-overlay.on{display:flex}
+    .modal{background:#fff;border-radius:24px;padding:32px;max-width:900px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+    .user-tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+    .user-tbl th{text-align:left;padding:10px 12px;font-weight:700;color:var(--muted);border-bottom:2px solid var(--border);white-space:nowrap}
+    .user-tbl td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+    .role-tag{padding:2px 8px;border-radius:9999px;font-size:.75rem;font-weight:700;white-space:nowrap}
+    .role-admin{background:rgba(232,83,62,0.1);color:var(--primary)}
+    .role-sub{background:rgba(78,205,196,0.1);color:var(--accent)}
+    .role-user{background:var(--surface);color:var(--muted)}
+    .act-btn{padding:4px 10px;border-radius:9999px;font-size:.75rem;font-weight:700;border:none;cursor:pointer;transition:all .2s;margin-right:4px;font-family:inherit}
+    .act-set{background:rgba(78,205,196,0.15);color:var(--accent);border:1px solid rgba(78,205,196,0.3)}
+    .act-set:hover{background:rgba(78,205,196,0.25)}
+    .act-unset{background:var(--surface);color:var(--muted);border:1px solid var(--border)}
+    .act-unset:hover{background:var(--primary-light)}
+    .act-del{background:rgba(248,113,113,0.1);color:var(--error);border:1px solid rgba(248,113,113,0.2)}
+    .act-del:hover{background:rgba(248,113,113,0.2)}
+    .toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 24px;border-radius:9999px;font-weight:700;font-size:.9rem;z-index:2000;animation:ts .3s;pointer-events:none}
+    @keyframes ts{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+    @media(max-width:640px){.ctr{padding:20px 12px}.fi2{flex-direction:column;align-items:flex-start;gap:12px}.fa{width:100%;justify-content:flex-end}.user-tbl{font-size:.75rem}.user-tbl th,.user-tbl td{padding:6px 8px}.modal{padding:20px;max-height:90vh}}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <img class="deco deco-1" src="images/img1.png" alt="">
+  <img class="deco deco-2" src="images/img2.png" alt="">
+  <img class="deco deco-3" src="images/img3.png" alt="">
+  <img class="deco deco-4" src="images/img4.png" alt="">
+  <img class="deco deco-5" src="images/img5.png" alt="">
+  <img class="deco deco-6" src="images/img6.png" alt="">
+  <img class="deco deco-7" src="images/img7.png" alt="">
+  <img class="deco deco-8" src="images/img8.png" alt="">
+  <img class="deco deco-9" src="images/img9.png" alt="">
+  <img class="deco deco-10" src="images/img10.png" alt="">
+
+  <div class="ctr">
+    <div class="hd">
+      <button class="tbtn tbtn-r" id="adminBtn" onclick="openAdmin()" title="管理后台" style="display:none">🛠</button>
+      <button class="tbtn" style="right:48px" id="userBtn" onclick="showUserMenu()" title="用户">👤</button>
+      <div class="logo">🏀</div>
+      <h1>坤坤云</h1>
+      <div class="sub">和朋友分享文件，轻松愉快</div>
+    </div>
+
+    <div class="space-bar">
+      <button class="sbtn on" onclick="showSpace('mine')">个人空间</button>
+      <button class="sbtn" onclick="showSpace('all')">共享空间</button>
+    </div>
+    <div class="sinfo" id="spaceInfo">加载中..</div>
+    <div class="sinfo" id="spaceDesc" style="font-size:.8rem;color:var(--muted);margin-top:-12px;margin-bottom:16px"></div>
+
+    <div class="expiry-bar" style="display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap"><span style="font-weight:700;font-size:.9rem;color:var(--muted)">保存时长：</span><select id="expirySelect" style="padding:8px 14px;border:2px solid var(--border);border-radius:10px;font-size:.9rem;font-weight:600;font-family:inherit;color:var(--ink);background:var(--surface);cursor:pointer"><option value="3600000">1小时</option><option value="10800000">3小时</option><option value="43200000">12小时</option><option value="86400000" selected>24小时</option><option value="259200000">3天</option><option value="604800000">7天</option><option value="2592000000">30天</option></select></div>
+
+    <div class="mwrap"><span class="mtxt">欢迎使用坤坤云！拖拽文件即可上传，单个文件最大 10GB</span></div>
+
+    <div class="dz" id="dropZone" onclick="document.getElementById('fileInput').click()">
+      <div class="dzc">
+        <div class="dzi">📤</div>
+        <div class="dzt">拖拽文件到这里上传</div>
+        <div class="dzh">或者点击选择文件 · 最大 10GB</div>
+        <div class="dzb">选择文件</div>
+      </div>
+    </div>
+    <input type="file" id="fileInput" multiple>
+
+    <div class="sl" id="progressSection" style="display:none">
+      <div class="sli"><div class="slf" id="progressBar"></div></div>
+      <div class="slt" id="progressText">0%</div>
+    </div>
+
+    <div class="fl2">
+      <div class="fl2h">
+        <h2>📁 文件列表</h2>
+        <span class="fl2e" id="fileCount"></span>
+      </div>
+      <div id="fileList"><p style="color:var(--muted);text-align:center;padding:40px 0">加载中...</p></div>
+    </div>
+    <div class="ft">坤坤云&copy; 2026</div>
+  </div>
+
+  <div class="modal-overlay" id="userModal">
+    <div class="modal" style="max-width:300px;text-align:center">
+      <h2>👤 用户信息</h2>
+      <p id="userModalInfo" style="margin-bottom:20px"></p>
+      <button class="btn bd" onclick="doLogout()" style="width:100%;margin-bottom:8px">退出登录</button>
+      <button class="btn bd" onclick="document.getElementById('userModal').classList.remove('on')" style="width:100%">关闭</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h2 style="margin:0">🛠 管理后台</h2>
+        <button class="btn bd" onclick="closeAdmin()">关闭</button>
+      </div>
+      <div id="adminContent"><p style="color:var(--muted)">加载中..</p></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" style="display:none"></div>
+
+  <script>
+    var TOKEN=localStorage.getItem('token');
+    var USERNAME=localStorage.getItem('username');
+    var IS_ADMIN=localStorage.getItem('isAdmin')==='true';
+    var IS_SUB=localStorage.getItem('isSubAdmin')==='true';
+    var VIEW_MODE='mine';
+
+    (function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark')})();
+    function toggleTheme(){var d=document.documentElement.hasAttribute('data-theme');if(d){document.documentElement.removeAttribute('data-theme');localStorage.setItem('theme','light')}else{document.documentElement.setAttribute('data-theme','dark');localStorage.setItem('theme','dark')}}
+
+    if(!TOKEN){window.location.href='/login.html';throw 'no auth'}
+    fetch('/api/auth/check',{headers:{'Authorization':'Bearer '+TOKEN}}).then(function(r){return r.json()}).then(function(d){if(!d.loggedIn){localStorage.clear();window.location.href='/login.html'}else{if(d.isAdmin){IS_ADMIN=true;localStorage.setItem('isAdmin','true');document.getElementById('adminBtn').style.display=''}if(d.isSubAdmin){IS_SUB=true;localStorage.setItem('isSubAdmin','true');if(!IS_ADMIN)document.getElementById('adminBtn').style.display=''}}});
+
+    function showUserMenu(){document.getElementById('userModalInfo').innerHTML='<b>'+USERNAME+'</b><br><span style="color:var(--muted)">'+(IS_ADMIN?'👑 管理员':IS_SUB?'👑 副管理员':'普通用户')+'</span>';document.getElementById('userModal').classList.add('on')}
+    function doLogout(){fetch('/api/auth/logout',{method:'POST',headers:{'Authorization':'Bearer '+TOKEN}});localStorage.clear();window.location.href='/login.html'}
+
+    function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(function(){t.style.display='none'},2500)}
+
+    function showSpace(mode){VIEW_MODE=mode;document.querySelectorAll('.sbtn').forEach(function(b,i){b.classList.toggle('on',(i===0&&mode==='mine')||(i===1&&mode==='all'))});var d=document.getElementById('spaceDesc');if(d)d.textContent=mode==='mine'?'个人空间 - 只有你自己能看到和管理你的文件':'共享空间 - 所有登录用户都能看到这里的文件';loadFiles()}
+
+    var dz=document.getElementById('dropZone');
+    dz.addEventListener('dragover',function(e){e.preventDefault();dz.classList.add('drag')});
+    dz.addEventListener('dragleave',function(){dz.classList.remove('drag')});
+    dz.addEventListener('drop',function(e){e.preventDefault();dz.classList.remove('drag');handleFiles(e.dataTransfer.files)});
+    document.getElementById('fileInput').addEventListener('change',function(){handleFiles(this.files);this.value=''});
+
+    function handleFiles(files){
+      if(!files.length)return;
+      var ps=document.getElementById('progressSection');
+      var pb=document.getElementById('progressBar');
+      var pt=document.getElementById('progressText');
+      ps.style.display='';pb.style.width='0%';pt.textContent='0%';
+      var fd=new FormData();var nameList=[];for(var i=0;i<files.length;i++){nameList.push(files[i].name);}
+      var space=VIEW_MODE==='mine'?'personal':'shared';
+      fd.append('space',space);
+      fd.append('expiry',document.getElementById('expirySelect')?document.getElementById('expirySelect').value:'86400000');
+      for(var i=0;i<files.length;i++){fd.append('files',files[i]);}
+      var xhr=new XMLHttpRequest();
+      xhr.upload.addEventListener('progress',function(e){if(e.lengthComputable){var p=Math.round(e.loaded/e.total*100);pb.style.width=p+'%';pt.textContent=p+'% - '+fmtSize(e.loaded)+' / '+fmtSize(e.total)}});
+      xhr.addEventListener('load',function(){ps.style.display='none';toast('上传完成！');loadFiles()});
+      xhr.addEventListener('error',function(){ps.style.display='none';toast('上传失败')});
+      xhr.open('POST','/api/upload');
+      xhr.setRequestHeader('Authorization','Bearer '+TOKEN);
+      xhr.setRequestHeader('X-File-Names',encodeURIComponent(JSON.stringify(nameList)));xhr.send(fd);
+    }
+
+    function fmtSize(b){if(!b)return'0 B';var u=['B','KB','MB','GB','TB'];var i=0;while(b>=1024&&i<u.length-1){b/=1024;i++}return b.toFixed(i?1:0)+' '+u[i]}
+    function fmtTime(ts){if(!ts)return'-';var d=new Date(ts);return d.toLocaleDateString('zh-CN')+' '+d.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}
+    function timeLeft(exp){var r=exp-Date.now();if(r<=0)return'已过期';var h=Math.floor(r/3600000);var m=Math.floor((r%3600000)/60000);return h>0?h+'小时'+m+'分钟':m+'分钟'}
+    function fileIcon(name){var e=name.split('.').pop().toLowerCase();var ic={'pdf':'📄','doc':'📃','docx':'📃','xls':'📊','xlsx':'📊','ppt':'📊','pptx':'📊','jpg':'🖼','jpeg':'🖼','png':'🖼','gif':'🖼','mp4':'🎬','mp3':'🎵','zip':'📦','rar':'📦','7z':'📦','txt':'📝','js':'💻','py':'🐍','html':'🌐','css':'🎨'};return ic[e]||'📎'}
+
+    function dlById(id){
+      window.open('/api/download-url/'+id,'_blank');
+    }
+
+    async function loadFiles(){
+      try{
+        var space=VIEW_MODE==='mine'?'personal':'shared';
+        var res=await fetch('/api/files?space='+space,{headers:{'Authorization':'Bearer '+TOKEN}});
+        if(res.status===401){localStorage.clear();window.location.href='/login.html';return}
+        var files=await res.json();
+        var fileListEl=document.getElementById('fileList');
+        if(files.error){fileListEl.innerHTML='<p style="color:var(--error)">'+files.error+'</p>';return}
+        var myFiles=VIEW_MODE==='mine'?files.filter(function(f){return f.uploadedBy===USERNAME}):files;
+        document.getElementById('fileCount').textContent=myFiles.length+' 个文件';
+        var totalSize=0;files.forEach(function(f){totalSize+=f.size||0});
+        var spaceLabel=space==='personal'?'我的文件':'全部文件';
+        var desc=space==='personal'?'个人空间 - 只有你自己能看到和管理你的文件':'共享空间 - 所有登录用户都能看到这里的文件';
+        document.getElementById('spaceDesc').textContent=desc;
+        document.getElementById('spaceInfo').textContent='共 '+files.length+' 个文件，占用 '+fmtSize(totalSize)+' · '+spaceLabel;
+        if(!myFiles.length){fileListEl.innerHTML='<p style="color:var(--muted);text-align:center;padding:40px 0">📦 暂无文件，拖拽文件到上方即可上传</p>';return}
+        fileListEl.innerHTML=myFiles.map(function(f){
+          var timeStr=timeLeft(f.expiresAt);
+          var uploader=f.uploadedBy||'未知';
+          var delBtn='';
+          if(IS_ADMIN||IS_SUB||f.uploadedBy===USERNAME){delBtn='<button class="btn bdr" data-del="'+f.id+'">🗑 删除</button>'}
+          var roleTag='';
+          if(f.uploadedBy==='changlicxk')roleTag=' <span style="background:rgba(232,83,62,0.1);color:var(--primary);font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:9999px">[管理员]</span>';
+          return '<div class="fi2"><span class="fi">'+fileIcon(f.originalName)+'</span><div class="finf"><div class="fn">'+f.originalName+'</div><div class="fm">'+fmtSize(f.size)+' · 剩余 '+timeStr+' · 上传者: '+uploader+roleTag+'</div></div><div class="fa"><button class="btn bd" data-dl="'+f.id+'">下载</button><button class="btn bd" style="background:var(--accent);color:#fff" data-share="'+f.id+'">分享</button>'+delBtn+'</div></div>';
+        }).join('');
+        fileListEl.querySelectorAll('[data-dl]').forEach(function(btn){btn.onclick=function(){dlById(btn.getAttribute('data-dl'))}});
+        fileListEl.querySelectorAll('[data-share]').forEach(function(btn){btn.onclick=function(){copyShareLink(btn.getAttribute('data-share'))}});
+        fileListEl.querySelectorAll('[data-del]').forEach(function(btn){btn.onclick=function(){delFile(btn.getAttribute('data-del'))}});
+      } catch(e) { console.error(e); }
+    }
+
+    async function delFile(id) {
+      if (!confirm('确定删除？')) return;
+      await fetch('/api/delete/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + TOKEN } });
+      loadFiles();
+    }
+
+    function copyShareLink(id){
+      var link=window.location.origin+'/api/download-url/'+id;
+      if(navigator.clipboard){navigator.clipboard.writeText(link).then(function(){toast('链接已复制！')}).catch(function(){fallbackCopy(link)})}
+      else{fallbackCopy(link)}
+    }
+    function fallbackCopy(text){
+      var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';
+      document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('链接已复制！')}catch(e){toast('复制失败，请手动复制')}document.body.removeChild(ta);
+    }
+
+    function openAdmin() {
+      document.getElementById('adminModal').classList.add('on');
+      loadUsers();
+    }
+    function closeAdmin() { document.getElementById('adminModal').classList.remove('on'); }
+
+    async function loadUsers() {
+      var adminEl = document.getElementById('adminContent');
+      adminEl.innerHTML = '<p style="color:var(--muted)">加载中..</p>';
+      try {
+        var res = await fetch('/api/admin/users', { headers: { 'Authorization': 'Bearer ' + TOKEN } });
+        var users = await res.json();
+        if (users.error) { adminEl.innerHTML = '<p style="color:var(--error)">' + users.error + '</p>'; return; }
+        var html = '<table class="user-tbl"><thead><tr><th>用户名</th><th>邮箱</th><th>角色</th><th>注册时间</th><th>上次登录</th><th>使用空间</th><th>文件数</th><th>操作</th></tr></thead><tbody>';
+        users.forEach(function(u) {
+          var roleCls = u.role === 'admin' ? 'role-admin' : u.role === 'subadmin' ? 'role-sub' : 'role-user';
+          var roleName = u.role === 'admin' ? '管理员' : u.role === 'subadmin' ? '副管理员' : '普通用户';
+          var isSuper = (u.username === 'changlicxk');
+          var actions = '';
+          if (IS_ADMIN && !isSuper) {
+            if (u.role === 'subadmin') {
+              actions += '<button class="act-btn act-unset" onclick="setRole(\'' + u.username + '\',\'user\')">取消副管理员</button>';
+            } else {
+              actions += '<button class="act-btn act-set" onclick="setRole(\'' + u.username + '\',\'subadmin\')">设为副管理员</button>';
+            }
+            actions += '<button class="act-btn act-del" onclick="deleteUser(\'' + u.username + '\')">删除用户</button>';
+          } else if (IS_SUB && u.role !== 'admin' && u.role !== 'subadmin' && !isSuper) {
+            actions += '<button class="act-btn act-del" onclick="deleteUser(\'' + u.username + '\')">删除用户</button>';
+          }
+          html += '<tr><td><b>' + u.username + '</b>' + (isSuper ? ' 👑' : '') + '</td><td>' + (u.email || '-') + '</td><td><span class="role-tag ' + roleCls + '">' + roleName + '</span></td><td>' + fmtTime(u.createdAt) + '</td><td>' + fmtTime(u.lastLogin) + '</td><td>' + fmtSize(u.usageBytes) + '</td><td>' + u.fileCount + '</td><td>' + actions + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        adminEl.innerHTML = html;
+      } catch(e) { adminEl.innerHTML = '<p style="color:var(--error)">加载失败</p>'; }
+    }
+
+    async function setRole(username, role) {
+      var msg = role === 'subadmin' ? '确定设置 ' + username + ' 为副管理员？' : '确定取消 ' + username + ' 的副管理员权限？';
+      if (!confirm(msg)) return;
+      var res = await fetch('/api/admin/set-role', { method: 'POST', headers: { 'Authorization': 'Bearer ' + TOKEN, 'Content-Type': 'application/json' }, body: JSON.stringify({ username: username, role: role }) });
+      var d = await res.json();
+      if (d.error) { alert(d.error); return; }
+      loadUsers();
+    }
+
+    async function deleteUser(username) {
+      if (!confirm('确定删除用户 ' + username + '？该用户的所有文件也将被删除！')) return;
+      var res = await fetch('/api/admin/delete-user', { method: 'POST', headers: { 'Authorization': 'Bearer ' + TOKEN, 'Content-Type': 'application/json' }, body: JSON.stringify({ username: username }) });
+      var d = await res.json();
+      if (d.error) { alert(d.error); return; }
+      loadUsers();
+    }
+
+    window.addEventListener('load', function() { loadFiles(); });
+  </script>
+</body>
+</html>
